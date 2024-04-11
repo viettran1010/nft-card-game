@@ -27,8 +27,17 @@ const CreateTreatmentPlanRequest = () => {
     }
   };
 
+  const validateEmail = (email) => {
+    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return regex.test(email);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateEmail(formData.email)) {
+      setErrorMessage('Invalid email address.');
+      return;
+    }
     try {
       await sendTreatmentPlanRequest(formData);
       setSuccessMessage('Treatment plan request sent successfully.');

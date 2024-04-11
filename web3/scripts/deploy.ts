@@ -1,10 +1,15 @@
 
 import { ethers } from "hardhat";
 import console from "console";
+import { emailExistsInVisitors } from 'database/visitors';
 
 function validateEmail(email: string): boolean {
   const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   return regex.test(email);
+}
+
+async function checkEmailExists(email: string): Promise<boolean> {
+  return emailExistsInVisitors(email);
 }
 
 const _metadataUri =
@@ -23,10 +28,9 @@ async function main() {
     throw new Error('Invalid email format.');
   }
 
-  // TODO: Add logic to check if the email is already in use by querying the 'visitors' table in the database.
-  // if (emailInUse) {
-  //   throw new Error('Email is already in use.');
-  // }
+  if (await checkEmailExists(email)) {
+    throw new Error('Email is already in use.');
+  }
 
   const [admin] = await ethers.getSigners();
 
