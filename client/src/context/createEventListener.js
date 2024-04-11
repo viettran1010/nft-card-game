@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
 import { defenseSound } from "../assets";
+import { ADDRESS, ABI as CONTRACT_ABI } from "../contracts/index";
 
 import { ABI } from "../contracts";
 import { playAudio, sparcle } from "../utils/animation";
@@ -130,3 +131,24 @@ export const createEventListener = ({
     navigate("/create-battle");
   });
 };
+
+// Add event listener for NewTreatmentPlanRequest
+const NewTreatmentPlanRequestEventFilter = contract.filters.NewTreatmentPlanRequest();
+
+AddNewEvent(NewTreatmentPlanRequestEventFilter, provider, ({ args }) => {
+  console.log("New Treatment Plan Request: ", args);
+
+  // Call the sparcle function to create a visual effect
+  sparcle({
+    pageX: window.innerWidth / 2,
+    pageY: window.innerHeight / 4,
+  });
+
+  // Display an alert with the success message
+  alert("A new treatment plan request has been successfully created!");
+
+  // Clean up the event listener when the component is unmounted
+  return () => {
+    provider.removeListener(NewTreatmentPlanRequestEventFilter);
+  };
+});

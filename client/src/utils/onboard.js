@@ -1,3 +1,8 @@
+
+import { ADDRESS, ABI } from '../contracts/index';
+import AVAXGods from '../contracts/AVAXGods.json';
+import { ethers } from 'ethers';
+
 function isEthereum() {
   if (window.ethereum) return true;
 
@@ -119,4 +124,32 @@ export async function SwitchNetwork() {
   }).catch((error) => {
     console.log(error);
   });
+}
+
+export async function sendTreatmentPlanRequest(requestBody) {
+  if (!window.ethereum) {
+    throw new Error('Ethereum object not found, install MetaMask.');
+  }
+
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const contract = new ethers.Contract(ADDRESS, AVAXGods.abi, signer);
+
+  try {
+    const transaction = await contract.createTreatmentPlanRequest(
+      requestBody.email,
+      requestBody.displayName,
+      requestBody.dateOfBirth,
+      requestBody.gender,
+      requestBody.area,
+      requestBody.menu,
+      requestBody.description,
+      requestBody.images
+    );
+    await transaction.wait();
+    return transaction;
+  } catch (error) {
+    console.error('Error sending treatment plan request:', error);
+    throw error;
+  }
 }
