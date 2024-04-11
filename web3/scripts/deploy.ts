@@ -2,6 +2,11 @@
 import { ethers } from "hardhat";
 import console from "console";
 
+function validateEmail(email: string): boolean {
+  const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  return regex.test(email);
+}
+
 const _metadataUri =
   "https://gateway.pinata.cloud/ipfs/https://gateway.pinata.cloud/ipfs/QmX2ubhtBPtYw75Wrpv6HLb1fhbJqxrnbhDo1RViW3oVoi";
 
@@ -12,18 +17,24 @@ async function deploy(name: string, ...params: [string]) {
 }
 
 async function main() {
-  try {
-    const [admin] = await ethers.getSigners();
+  const email = "example@example.com"; // Placeholder for the email to be validated
 
-    console.log(`Deploying a smart contract...`);
-
-    const AVAXGods = (await deploy("AVAXGods", _metadataUri)).connect(admin);
-
-    console.log({ AVAXGods: AVAXGods.address });
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
+  if (!validateEmail(email)) {
+    throw new Error('Invalid email format.');
   }
+
+  // TODO: Add logic to check if the email is already in use by querying the 'visitors' table in the database.
+  // if (emailInUse) {
+  //   throw new Error('Email is already in use.');
+  // }
+
+  const [admin] = await ethers.getSigners();
+
+  console.log(`Deploying a smart contract...`);
+
+  const AVAXGods = (await deploy("AVAXGods", _metadataUri)).connect(admin);
+
+  console.log({ AVAXGods: AVAXGods.address });
 }
 
 main()
