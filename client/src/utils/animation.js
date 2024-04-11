@@ -1,6 +1,7 @@
+
 import { explosion } from '../assets';
 
-// https://codepen.io/meodai/pen/OVVzBb\
+// https://codepen.io/meodai/pen/OVVzBb
 
 export const playAudio = (clip) => {
   const audio = new Audio();
@@ -130,4 +131,28 @@ export function sparcle(event) {
       }, i * 100);
     });
   });
+}
+
+// New animation for member registration
+export function registrationSuccessAnimation() {
+  const successContainer = document.createElement('div');
+  successContainer.className = 'registration-success-animation';
+  document.body.appendChild(successContainer);
+
+  const animationDuration = 1500; // Animation duration in milliseconds
+
+  // Create and animate success checkmark
+  const checkmark = document.createElement('div');
+  checkmark.className = 'checkmark';
+  successContainer.appendChild(checkmark);
+
+  // Start the checkmark animation
+  setTimeout(() => {
+    checkmark.classList.add('checkmark-animate');
+  }, 100);
+
+  // Remove the animation container after the animation ends
+  setTimeout(() => {
+    document.body.removeChild(successContainer);
+  }, animationDuration);
 }

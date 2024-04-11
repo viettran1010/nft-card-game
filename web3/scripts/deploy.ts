@@ -1,3 +1,4 @@
+
 import { ethers } from "hardhat";
 import console from "console";
 
@@ -11,13 +12,18 @@ async function deploy(name: string, ...params: [string]) {
 }
 
 async function main() {
-  const [admin] = await ethers.getSigners();
+  try {
+    const [admin] = await ethers.getSigners();
 
-  console.log(`Deploying a smart contract...`);
+    console.log(`Deploying a smart contract...`);
 
-  const AVAXGods = (await deploy("AVAXGods", _metadataUri)).connect(admin);
+    const AVAXGods = (await deploy("AVAXGods", _metadataUri)).connect(admin);
 
-  console.log({ AVAXGods: AVAXGods.address });
+    console.log({ AVAXGods: AVAXGods.address });
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
 }
 
 main()

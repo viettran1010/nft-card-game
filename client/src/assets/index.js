@@ -1,6 +1,7 @@
 // backgrounds
 import saiman from './background/saiman.jpg';
 import astral from './background/astral.jpg';
+import registrationBg from './background/registration-bg.jpg';
 import eoaalien from './background/eoaalien.jpg';
 import panight from './background/panight.jpg';
 import heroImg from './background/hero-img.jpg';
@@ -95,6 +96,7 @@ export {
   panight,
   heroImg,
 
+  registrationBg,
   ace,
   bakezori,
   blackSolus,
@@ -151,6 +153,11 @@ export const battlegrounds = [
 export const gameRules = [
   'Card with the same defense and attack point will cancel each other out.',
   'Attack points from the attacking card will deduct the opposing player’s health points.',
+// fallback images
+export const fallbackImages = {
+  registration: './fallback/registration-fallback.jpg',
+};
+
   'If P1 does not defend, their health wil be deducted by P2’s attack.',
   'If P1 defends, P2’s attack is equal to P2’s attack - P1’s defense.',
   'If a player defends, they refill 3 Mana',

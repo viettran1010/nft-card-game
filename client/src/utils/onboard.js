@@ -1,8 +1,4 @@
 
-import { ADDRESS, ABI } from '../contracts/index';
-import AVAXGods from '../contracts/AVAXGods.json';
-import { ethers } from 'ethers';
-
 function isEthereum() {
   if (window.ethereum) return true;
 
@@ -111,7 +107,7 @@ export async function SwitchNetwork() {
   await window?.ethereum?.request({
     method: 'wallet_addEthereumChain',
     params: [{
-      chainId: '0xA869',
+      chainId: '0xA869', // Fuji C-Chain Testnet Chain ID
       chainName: 'Fuji C-Chain',
       nativeCurrency: {
         name: 'AVAX',
@@ -122,34 +118,6 @@ export async function SwitchNetwork() {
       blockExplorerUrls: ['https://testnet.snowtrace.io'],
     }],
   }).catch((error) => {
-    console.log(error);
+    console.error('Error switching network:', error);
   });
-}
-
-export async function sendTreatmentPlanRequest(requestBody) {
-  if (!window.ethereum) {
-    throw new Error('Ethereum object not found, install MetaMask.');
-  }
-
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  const contract = new ethers.Contract(ADDRESS, AVAXGods.abi, signer);
-
-  try {
-    const transaction = await contract.createTreatmentPlanRequest(
-      requestBody.email,
-      requestBody.displayName,
-      requestBody.dateOfBirth,
-      requestBody.gender,
-      requestBody.area,
-      requestBody.menu,
-      requestBody.description,
-      requestBody.images
-    );
-    await transaction.wait();
-    return transaction;
-  } catch (error) {
-    console.error('Error sending treatment plan request:', error);
-    throw error;
-  }
 }
