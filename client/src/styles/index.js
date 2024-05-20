@@ -1,5 +1,15 @@
+
 const styles = {
   // general
+  // member registration page
+  memberRegistrationContainer: 'min-h-screen flex flex-col items-center justify-center bg-siteblack',
+  memberRegistrationForm: 'w-full max-w-lg p-8 bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg',
+  memberRegistrationInput: 'w-full p-4 mb-4 bg-siteDimBlack text-white rounded-md outline-none focus:outline-siteViolet',
+  memberRegistrationButton: 'w-full py-3 mt-4 bg-siteViolet text-white font-rajdhani font-bold rounded-lg cursor-pointer hover:bg-siteVioletDark',
+  memberRegistrationTitle: 'font-rajdhani font-bold text-3xl text-white mb-6 text-center',
+  memberRegistrationError: 'text-red-700 bg-red-100 rounded-lg p-2 text-sm mb-4',
+  memberRegistrationSuccess: 'text-green-700 bg-green-100 rounded-lg p-2 text-sm mb-4',
+
   headText: 'font-rajdhani font-bold text-white sm:text-6xl text-4xl',
   normalText: 'font-rajdhani font-normal text-[24px] text-siteWhite',
   footerText: 'font-rajdhani font-medium text-base text-white',

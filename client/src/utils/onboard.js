@@ -1,3 +1,4 @@
+
 function isEthereum() {
   if (window.ethereum) return true;
 
@@ -106,7 +107,7 @@ export async function SwitchNetwork() {
   await window?.ethereum?.request({
     method: 'wallet_addEthereumChain',
     params: [{
-      chainId: '0xA869',
+      chainId: '0xA869', // Fuji C-Chain Testnet Chain ID
       chainName: 'Fuji C-Chain',
       nativeCurrency: {
         name: 'AVAX',
@@ -117,6 +118,6 @@ export async function SwitchNetwork() {
       blockExplorerUrls: ['https://testnet.snowtrace.io'],
     }],
   }).catch((error) => {
-    console.log(error);
+    console.error('Error switching network:', error);
   });
 }

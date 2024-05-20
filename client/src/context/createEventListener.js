@@ -1,7 +1,8 @@
+
 import { ethers } from "ethers";
 import { defenseSound } from "../assets";
-
-import { ABI } from "../contracts";
+import AVAXGods from "../contracts/AVAXGods.json"; // Added from patch
+import { ADDRESS, ABI } from "../contracts/index.js"; // Updated from patch
 import { playAudio, sparcle } from "../utils/animation";
 
 const emptyAccount = "0x0000000000000000000000000000000000000000";
@@ -26,6 +27,7 @@ const getCoords = (cardRef) => {
 };
 
 export const createEventListener = ({
+  currentUserID, // Added from patch
   navigate,
   contract,
   provider,
@@ -35,6 +37,20 @@ export const createEventListener = ({
   player1Ref,
   player2Ref,
 }) => {
+  const NewMemberEventFilter = contract.filters.NewMember(); // Added from patch
+
+  AddNewEvent(NewMemberEventFilter, provider, ({ args }) => { // Added from patch
+    console.log("New Member Registered: ", args);
+
+    if (currentUserID === args.visitor_id) {
+      // Assuming there is a state management system to update the user's state
+      // Replace `updateUserState` with the actual function to update the user's state
+      updateUserState({ is_member: true });
+      // Trigger any UI updates necessary to reflect the user's membership status
+      // This could be a re-render, a redirect, or a notification
+    }
+  });
+
   const NewPlayerEventFilter = contract.filters.NewPlayer();
 
   AddNewEvent(NewPlayerEventFilter, provider, ({ args }) => {
@@ -108,7 +124,7 @@ export const createEventListener = ({
     setUpdateGameData((prevUpdateGameData) => prevUpdateGameData + 1);
   });
 
-  const BattleEndedEventFilter = contract.filters.RoundEnded();
+  const BattleEndedEventFilter = contract.filters.BattleEnded(); // Fixed from patch (was RoundEnded)
 
   AddNewEvent(BattleEndedEventFilter, provider, ({ args }) => {
     console.log("Battle Ended: ", args, walletAddress);
@@ -130,3 +146,5 @@ export const createEventListener = ({
     navigate("/create-battle");
   });
 };
+
+// Note: The function `updateUserState` is assumed to be part of the state management system and should be implemented accordingly.

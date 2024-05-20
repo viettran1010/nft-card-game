@@ -3,6 +3,10 @@ import "@nomiclabs/hardhat-ethers";
 
 dotenv.config();
 
+const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
+
+dotenv.config();
+
 //* Notes for deploying the smart contract on your own subnet
 //* More info on subnets: https://docs.avax.network/subnets
 //* Why deploy on a subnet: https://docs.avax.network/subnets/when-to-use-subnet-vs-c-chain
@@ -25,7 +29,7 @@ export default {
   networks: {
     fuji: {
       url: "https://api.avax-test.network/ext/bc/C/rpc",
-      gasPrice: 225000000000,
+      url: process.env.NODE_URL || "https://api.avax-test.network/ext/bc/C/rpc",
       chainId: 43113,
       accounts: [process.env.PRIVATE_KEY],
     },
